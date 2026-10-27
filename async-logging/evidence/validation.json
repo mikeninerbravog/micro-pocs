@@ -1,7 +1,7 @@
 {
-  "mission": "SIG-002",
-  "status": "HERO",
-  "eol": true,
+  "mission": "Micro-POC 002",
+  "status": "PASS",
+  "completion": true,
   "checks": {
     "C01_sync_integrity": true,
     "C02_async_accounting": true,

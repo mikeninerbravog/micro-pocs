@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SIG pagination micro-POC: deterministic HTTP API backed by SQLite."""
+"""Micro-POC pagination micro-POC: deterministic HTTP API backed by SQLite."""
 import argparse
 import json
 import sqlite3

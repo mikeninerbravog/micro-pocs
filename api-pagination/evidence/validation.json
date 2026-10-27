@@ -1,5 +1,5 @@
 {
-  "mission": "SIG MICRO-POC 001 — API Pagination",
+  "mission": "Micro-POC 001 — API Pagination",
   "timestamp_utc": "2026-10-27T15:30:44.782503+00:00",
   "python": "3.13.5",
   "sqlite": "3.46.1",
@@ -7,23 +7,23 @@
   "repeat": 100,
   "checks": {
     "C01_DATASET": {
-      "status": "HERO",
+      "status": "PASS",
       "detail": "rows=100000; min=1; max=100000; unique=100000; bad_payloads=0"
     },
     "C02_EQUIVALENCE": {
-      "status": "HERO",
+      "status": "PASS",
       "detail": "p1=OK(20/20); p1000=OK(20/20); p4000=OK(20/20); p5000=OK(20/20); p5001=OK(0/0)"
     },
     "C03_HTTP_BOUNDARIES": {
-      "status": "HERO",
+      "status": "PASS",
       "detail": "/offset?page=0:400/400; /offset?page=-1:400/400; /offset?limit=0:400/400; /offset?limit=1001:400/400; /offset?page=abc:400/400; /cursor?after=-1:400/400; /cursor?after=abc:400/400; /cursor?limit=0:400/400; /cursor?limit=1001:400/400; /not-found:404/404; /health:200/200"
     },
     "C04_BENCHMARK": {
-      "status": "HERO",
+      "status": "PASS",
       "detail": "6 scenarios x 100 HTTP requests"
     },
     "C05_DOCUMENTATION": {
-      "status": "HERO",
+      "status": "PASS",
       "detail": "README, measurable evidence and scope limitations recorded"
     }
   },
@@ -132,6 +132,6 @@
     "No snapshot-consistency test for concurrent writes.",
     "No predefined minimum speedup; comparative measurements are descriptive."
   ],
-  "certification": "HERO",
-  "eol": "CERTIFIED"
+  "validation": "PASS",
+  "completion": "COMPLETE"
 }

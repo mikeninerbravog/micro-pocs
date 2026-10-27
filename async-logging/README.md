@@ -1,4 +1,4 @@
-# SIG Micro-POC 002 — Async Logging
+# Micro-POC 002 — Async Logging
 
 ## Objective
 Compare local synchronous buffered file logging and asynchronous bounded-queue logging with batch writes and periodic flush. Measure producer p50/p95, producer throughput, end-to-end throughput, loss and integrity. The worker executes final `fsync` during graceful shutdown.
@@ -22,14 +22,14 @@ python3 poc.py bench
 python3 poc.py bench --events 100000 --capacity 8192 --batch 512 --interval-ms 100
 
 # Write benchmark files elsewhere
-python3 poc.py bench --events 10000 --output /tmp/sig-async-bench
+python3 poc.py bench --events 10000 --output /tmp/async-logging-bench
 
-# Validate contracts and generate evidence/certification.json and evidence/EOL.md
+# Validate contracts and generate evidence/validation.json and evidence/RESULTS.md
 python3 poc.py certify --events 10000
 
 # Inspect evidence
-cat evidence/certification.json
-cat evidence/EOL.md
+cat evidence/validation.json
+cat evidence/RESULTS.md
 wc -l evidence/sync.log evidence/async.log evidence/paced.log
 ```
 
@@ -40,7 +40,7 @@ wc -l evidence/sync.log evidence/async.log evidence/paced.log
 - C04: benchmark records producer and end-to-end timing for both modes.
 - C05: documentation exists.
 
-`HERO` is earned only if all five checks pass, then the script issues the EOL record. A measured improvement is a **finding**, not a mandatory acceptance gate. Saturation is intentionally not treated as lossless: dropped messages are counted. For a production system, choose an explicit backpressure or durable queue policy separately.
+`PASS` is earned only if all five checks pass, then the script issues the completion record. A measured improvement is a **finding**, not a mandatory acceptance gate. Saturation is intentionally not treated as lossless: dropped messages are counted. For a production system, choose an explicit backpressure or durable queue policy separately.
 
 ## Interpretation
 `producer_events_per_second` = events submitted / time spent submitting; async includes dropped submissions. `durable_events_per_second` = events written / time through graceful `fsync`. Producer p50/p95 measure only submission/write-call duration, **not per-event disk durability**. Synchronous mode uses buffered I/O followed by one `fsync`, so it too is not durable after each `write()` call. The benchmark is single-producer and does not characterize production parallelism, crash recovery, or storage power loss.

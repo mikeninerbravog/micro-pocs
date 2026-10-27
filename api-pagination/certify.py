@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bounded SIG certification of the pagination micro-POC."""
+"""Bounded Micro-POC validation of the pagination micro-POC."""
 import argparse
 import json
 import platform
@@ -35,7 +35,7 @@ def main():
         parser.error('--repeat must be >= 2')
     EVIDENCE.mkdir(exist_ok=True)
     record = {
-        'mission': 'SIG MICRO-POC 001 — API Pagination',
+        'mission': 'Micro-POC 001 — API Pagination',
         'timestamp_utc': datetime.now(timezone.utc).isoformat(),
         'python': platform.python_version(),
         'sqlite': sqlite3.sqlite_version,
@@ -53,7 +53,7 @@ def main():
     }
 
     def verify(name, condition, detail):
-        record['checks'][name] = {'status': 'HERO' if condition else 'ZERO', 'detail': detail}
+        record['checks'][name] = {'status': 'PASS' if condition else 'FAIL', 'detail': detail}
         print(f'{name}: {record["checks"][name]["status"]} — {detail}', flush=True)
 
     server = None
@@ -71,7 +71,7 @@ def main():
                count == poc.TOTAL and minimum == 1 and maximum == poc.TOTAL
                and unique_count == poc.TOTAL and bad_payloads == 0,
                f'rows={count}; min={minimum}; max={maximum}; unique={unique_count}; bad_payloads={bad_payloads}')
-        if record['checks']['C01_DATASET']['status'] == 'ZERO':
+        if record['checks']['C01_DATASET']['status'] == 'FAIL':
             raise RuntimeError('Dataset invariant failed')
 
         server = ThreadingHTTPServer(('127.0.0.1', 0), poc.Handler)
@@ -144,23 +144,23 @@ def main():
             server.server_close()
 
     all_ok = len(record['checks']) == 5 and all(
-        v['status'] == 'HERO' for v in record['checks'].values()
+        v['status'] == 'PASS' for v in record['checks'].values()
     ) and 'error' not in record
-    record['certification'] = 'HERO' if all_ok else 'ZERO'
-    record['eol'] = 'CERTIFIED' if all_ok else 'NOT CERTIFIED'
-    evidence_path = EVIDENCE / 'certification.json'
+    record['validation'] = 'PASS' if all_ok else 'FAIL'
+    record['completion'] = 'COMPLETE' if all_ok else 'NOT COMPLETE'
+    evidence_path = EVIDENCE / 'validation.json'
     evidence_path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + '\n')
 
-    eol_path = EVIDENCE / 'EOL.md'
+    eol_path = EVIDENCE / 'RESULTS.md'
     if all_ok:
         table = '\n'.join(f'| {name} | {value["status"]} |' for name, value in record['checks'].items())
         lines = [
-            '# SIG MICRO-POC 001 — EOL Certification', '',
+            '# Micro-POC 001 — completion Validation', '',
             f'- Certified (UTC): {record["timestamp_utc"]}',
             '- Scope: SQLite pagination OFFSET/LIMIT versus keyset cursor; local loopback HTTP.',
             f'- Dataset: {poc.TOTAL} sequential IDs.',
             f'- Measurements: 6 scenarios × {args.repeat} requests.',
-            '- Certification: **HERO**', '- EOL: **CERTIFIED**', '',
+            '- Validation: **PASS**', '- completion: **COMPLETE**', '',
             '## Acceptance checks', '', '| Criterion | Result |', '|---|---|', table, '',
             '## Results (p50 HTTP / p50 SQL, ms)', '',
             '| Page | Mode | HTTP | SQL |', '|---:|---|---:|---:|',
@@ -168,13 +168,13 @@ def main():
         for m in record['measurements']:
             lines.append(f'| {m["page"]} | {m["mode"]} | {m["http"]["p50_ms"]} | {m["sql"]["p50_ms"]} |')
         lines += ['', '## Limitations', ''] + [f'- {x}' for x in record['limitations']]
-        lines += ['', 'This EOL closes the bounded experimental scope, not production readiness.',
+        lines += ['', 'This completion closes the bounded experimental scope, not production readiness.',
                   'Follow-on experiments belong to a new mission.', '']
         eol_path.write_text('\n'.join(lines))
     elif eol_path.exists():
         eol_path.unlink()
-    print(f'CERTIFICATION: {record["certification"]}')
-    print(f'EOL: {record["eol"]}')
+    print(f'CERTIFICATION: {record["validation"]}')
+    print(f'completion: {record["completion"]}')
     print(f'EVIDENCE: {evidence_path}')
     raise SystemExit(0 if all_ok else 1)
 
