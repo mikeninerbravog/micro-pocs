@@ -6,6 +6,14 @@
 
 Este repositório público reúne microprovas de conceito que isolam uma hipótese técnica, oferecem código executável e testes, registram medições e deixam claras as limitações. O foco é verificar comportamento, inclusive quando o resultado não demonstra ganho.
 
+## O que é uma micro-POC?
+
+Uma **micro-POC (microprova de conceito)** é uma **base técnica mínima, prática e verificável** para experimentar determinada abordagem. É um **chão, um ponto de partida** — não um produto acabado, uma arquitetura completa ou uma solução pronta para produção.
+
+Os experimentos foram pensados para **adoção modular**: aproveite o componente ou a técnica pertinente ao seu projeto, integre à sua arquitetura e faça a solução **evoluir conforme a demanda real**. Dependendo do contexto, essa evolução pode incluir concorrência, persistência, observabilidade, segurança, testes de integração e tratamento de erros adequado à produção.
+
+A proposta é simples: **começar por uma prova de conceito de tamanho micro, verificar seu comportamento e ampliar apenas quando houver necessidade concreta**. Cada experimento mantém o escopo intencionalmente pequeno para deixar claras as hipóteses, os compromissos técnicos e as limitações.
+
 ## Catálogo de experimentos
 
 | Experimento | Investigação | Execução |
