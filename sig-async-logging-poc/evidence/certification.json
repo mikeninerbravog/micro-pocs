@@ -1,0 +1,68 @@
+{
+  "mission": "SIG-002",
+  "status": "HERO",
+  "eol": true,
+  "checks": {
+    "C01_sync_integrity": true,
+    "C02_async_accounting": true,
+    "C03_paced_no_loss": true,
+    "C04_benchmark": true,
+    "C05_documentation": true
+  },
+  "benchmark": [
+    {
+      "mode": "sync",
+      "events": 10000,
+      "accepted": 10000,
+      "dropped": 0,
+      "written": 10000,
+      "valid": true,
+      "producer_seconds": 0.007701,
+      "total_seconds": 0.071601,
+      "producer_events_per_second": 1298482.4,
+      "durable_events_per_second": 139663.4,
+      "producer_p50_us": 0.523,
+      "producer_p95_us": 0.594,
+      "flushes": 1,
+      "file_bytes": 410000
+    },
+    {
+      "mode": "async",
+      "events": 10000,
+      "accepted": 6542,
+      "dropped": 3458,
+      "written": 6542,
+      "valid": true,
+      "producer_seconds": 0.029424,
+      "total_seconds": 0.08318,
+      "producer_events_per_second": 339853.1,
+      "durable_events_per_second": 78648.5,
+      "producer_p50_us": 2.073,
+      "producer_p95_us": 2.409,
+      "flushes": 26,
+      "file_bytes": 268222
+    }
+  ],
+  "paced": {
+    "mode": "async",
+    "events": 100,
+    "accepted": 100,
+    "dropped": 0,
+    "written": 100,
+    "valid": true,
+    "producer_seconds": 0.21013,
+    "total_seconds": 0.251814,
+    "producer_events_per_second": 475.9,
+    "durable_events_per_second": 397.1,
+    "producer_p50_us": 16.581,
+    "producer_p95_us": 27.759,
+    "flushes": 21,
+    "file_bytes": 4100
+  },
+  "limitations": [
+    "in-process memory queue is not lock-free",
+    "queued events are not crash-durable",
+    "saturation drops messages",
+    "one producer; one consumer; local filesystem"
+  ]
+}

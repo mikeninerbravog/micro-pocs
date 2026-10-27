@@ -1,0 +1,37 @@
+{
+  "mission": "SIG-MICRO-POC-003",
+  "certification": "HERO",
+  "criteria": [
+    {
+      "criterion": "C01_HIT_MISS",
+      "state": "HERO",
+      "evidence": "first read miss; second read hit"
+    },
+    {
+      "criterion": "C02_LRU",
+      "state": "HERO",
+      "evidence": "capacity=2 evicts oldest entry"
+    },
+    {
+      "criterion": "C03_TTL",
+      "state": "HERO",
+      "evidence": "expired entry fetches from database"
+    },
+    {
+      "criterion": "C04_INVALIDATION",
+      "state": "HERO",
+      "evidence": "update commits and invalidates cached record"
+    },
+    {
+      "criterion": "C05_NOT_FOUND",
+      "state": "HERO",
+      "evidence": "missing key returns null"
+    },
+    {
+      "criterion": "C06_DB_INTEGRITY",
+      "state": "HERO",
+      "evidence": "100 unique records"
+    }
+  ],
+  "eol": "CERTIFIED"
+}

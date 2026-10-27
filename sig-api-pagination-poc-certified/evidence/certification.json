@@ -1,0 +1,137 @@
+{
+  "mission": "SIG MICRO-POC 001 — API Pagination",
+  "timestamp_utc": "2026-10-27T15:30:44.782503+00:00",
+  "python": "3.13.5",
+  "sqlite": "3.46.1",
+  "dataset_expected": 100000,
+  "repeat": 100,
+  "checks": {
+    "C01_DATASET": {
+      "status": "HERO",
+      "detail": "rows=100000; min=1; max=100000; unique=100000; bad_payloads=0"
+    },
+    "C02_EQUIVALENCE": {
+      "status": "HERO",
+      "detail": "p1=OK(20/20); p1000=OK(20/20); p4000=OK(20/20); p5000=OK(20/20); p5001=OK(0/0)"
+    },
+    "C03_HTTP_BOUNDARIES": {
+      "status": "HERO",
+      "detail": "/offset?page=0:400/400; /offset?page=-1:400/400; /offset?limit=0:400/400; /offset?limit=1001:400/400; /offset?page=abc:400/400; /cursor?after=-1:400/400; /cursor?after=abc:400/400; /cursor?limit=0:400/400; /cursor?limit=1001:400/400; /not-found:404/404; /health:200/200"
+    },
+    "C04_BENCHMARK": {
+      "status": "HERO",
+      "detail": "6 scenarios x 100 HTTP requests"
+    },
+    "C05_DOCUMENTATION": {
+      "status": "HERO",
+      "detail": "README, measurable evidence and scope limitations recorded"
+    }
+  },
+  "measurements": [
+    {
+      "page": 1,
+      "mode": "offset",
+      "runs": 100,
+      "http": {
+        "p50_ms": 0.867,
+        "p95_ms": 1.242,
+        "mean_ms": 0.923
+      },
+      "sql": {
+        "p50_ms": 0.151,
+        "p95_ms": 0.22,
+        "mean_ms": 0.162
+      },
+      "avg_bytes": 737
+    },
+    {
+      "page": 1,
+      "mode": "cursor",
+      "runs": 100,
+      "http": {
+        "p50_ms": 0.85,
+        "p95_ms": 1.321,
+        "mean_ms": 0.965
+      },
+      "sql": {
+        "p50_ms": 0.146,
+        "p95_ms": 0.219,
+        "mean_ms": 0.154
+      },
+      "avg_bytes": 741
+    },
+    {
+      "page": 1000,
+      "mode": "offset",
+      "runs": 100,
+      "http": {
+        "p50_ms": 1.55,
+        "p95_ms": 1.673,
+        "mean_ms": 1.549
+      },
+      "sql": {
+        "p50_ms": 0.759,
+        "p95_ms": 0.804,
+        "mean_ms": 0.763
+      },
+      "avg_bytes": 812
+    },
+    {
+      "page": 1000,
+      "mode": "cursor",
+      "runs": 100,
+      "http": {
+        "p50_ms": 0.842,
+        "p95_ms": 1.326,
+        "mean_ms": 1.036
+      },
+      "sql": {
+        "p50_ms": 0.144,
+        "p95_ms": 0.181,
+        "mean_ms": 0.137
+      },
+      "avg_bytes": 817
+    },
+    {
+      "page": 4000,
+      "mode": "offset",
+      "runs": 100,
+      "http": {
+        "p50_ms": 3.828,
+        "p95_ms": 4.34,
+        "mean_ms": 4.026
+      },
+      "sql": {
+        "p50_ms": 2.858,
+        "p95_ms": 3.092,
+        "mean_ms": 2.802
+      },
+      "avg_bytes": 812
+    },
+    {
+      "page": 4000,
+      "mode": "cursor",
+      "runs": 100,
+      "http": {
+        "p50_ms": 0.857,
+        "p95_ms": 0.991,
+        "mean_ms": 0.87
+      },
+      "sql": {
+        "p50_ms": 0.15,
+        "p95_ms": 0.167,
+        "mean_ms": 0.151
+      },
+      "avg_bytes": 817
+    }
+  ],
+  "limitations": [
+    "Local loopback and SQLite measurements only; no production performance claim.",
+    "Benchmark is serial and does not test concurrency or throughput.",
+    "Cursor assumes stable integer identifiers and does not support arbitrary page jumps.",
+    "No snapshot-consistency test for concurrent writes.",
+    "No predefined minimum speedup; comparative measurements are descriptive."
+  ],
+  "certification": "HERO",
+  "eol": "CERTIFIED"
+}

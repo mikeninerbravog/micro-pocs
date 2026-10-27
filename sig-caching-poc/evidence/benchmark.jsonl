@@ -1,0 +1,2 @@
+{"mode": "db", "metrics": {"requests": 10000, "p50_us": 4.076, "p95_us": 5.248, "throughput_rps": 208911.6, "checksum": 50196746}}
+{"mode": "cache_aside", "metrics": {"requests": 10000, "p50_us": 0.23, "p95_us": 5.488, "throughput_rps": 883382.1, "checksum": 50196746}, "cache": {"hits": 8935, "misses": 1065, "hit_rate": 0.8935, "evictions": 553}, "config": {"rows": 100000, "hot": 100, "capacity": 512, "ttl": 60, "seed": 42}}
