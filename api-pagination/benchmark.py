@@ -40,7 +40,7 @@ def main():
             expected = list(range(offset + 1, offset + 21))
             actual = [item['id'] for item in data['items']]
             if actual != expected:
-                raise SystemExit(f'ZERO: unexpected IDs for {url}')
+                raise SystemExit(f'FAIL: unexpected IDs for {url}')
             times, sizes, sql = [], [], []
             for _ in range(a.repeat):
                 d, latency, size = fetch(url)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SIG 002: bounded asynchronous logging demonstration (standard library only)."""
+"""Micro-POC 002: bounded asynchronous logging demonstration (standard library only)."""
 import argparse
 import json
 import os
@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 def event(i):
-    return (f'{i:08d}|event=benchmark|payload=SIG-002\n').encode()
+    return (f'{i:08d}|event=benchmark|payload=Micro-POC 002\n').encode()
 
 
 class AsyncLogger:
@@ -134,7 +134,7 @@ def measure(mode, n, path, capacity, batch, interval, producer_delay=0):
 
 
 def main():
-    ap = argparse.ArgumentParser(description='SIG-002 async logging micro-POC')
+    ap = argparse.ArgumentParser(description='Micro-POC 002 async logging micro-POC')
     sub = ap.add_subparsers(dest='command', required=True)
     for name in ('bench', 'certify'):
         p = sub.add_parser(name)
@@ -164,22 +164,22 @@ def main():
             'C04_benchmark': all(x['producer_seconds'] > 0 and x['total_seconds'] > 0 for x in results),
             'C05_documentation': (Path(__file__).with_name('README.md')).is_file(),
         }
-        status = 'HERO' if all(checks.values()) else 'ZERO'
-        evidence = {'mission': 'SIG-002', 'status': status, 'eol': status == 'HERO',
+        status = 'PASS' if all(checks.values()) else 'FAIL'
+        evidence = {'mission': 'Micro-POC 002', 'status': status, 'completion': status == 'PASS',
                     'checks': checks, 'benchmark': results, 'paced': paced,
                     'limitations': ['in-process memory queue is not lock-free',
                                     'queued events are not crash-durable',
                                     'saturation drops messages',
                                     'one producer; one consumer; local filesystem']}
-        (out / 'certification.json').write_text(json.dumps(evidence, indent=2) + '\n')
-        (out / 'EOL.md').write_text(f'# SIG-002 Certification\n\nStatus: **{status}**\n\nEOL: **{"CERTIFIED" if status == "HERO" else "NOT CERTIFIED"}**\n\n'
-                                    + '\n'.join(f'- {k}: {"HERO" if v else "ZERO"}' for k, v in checks.items())
+        (out / 'validation.json').write_text(json.dumps(evidence, indent=2) + '\n')
+        (out / 'completion.md').write_text(f'# Micro-POC 002 Validation\n\nStatus: **{status}**\n\nEOL: **{"COMPLETE" if status == "PASS" else "NOT COMPLETE"}**\n\n'
+                                    + '\n'.join(f'- {k}: {"PASS" if v else "FAIL"}' for k, v in checks.items())
                                     + '\n\nScope: in-process asynchronous logging with bounded queue, batch and periodic flush.\n'
                                     + '\nLimits: not lock-free; crash loss possible; overflow policy drops logs.\n')
         for k, v in checks.items():
-            print(f'{k}: {"HERO" if v else "ZERO"}')
-        print(f'CERTIFICATION: {status}; EOL: {"CERTIFIED" if status == "HERO" else "NOT CERTIFIED"}')
-        if status != 'HERO':
+            print(f'{k}: {"PASS" if v else "FAIL"}')
+        print(f'CERTIFICATION: {status}; completion: {"COMPLETE" if status == "PASS" else "NOT COMPLETE"}')
+        if status != 'PASS':
             raise SystemExit(1)
 
 if __name__ == '__main__':

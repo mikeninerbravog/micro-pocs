@@ -1,21 +1,21 @@
-# SIG MICRO-POC 001 — EOL Certification
+# Micro-POC 001 — completion Validation
 
 - Certified (UTC): 2026-10-27T15:30:44.782503+00:00
 - Scope: SQLite pagination OFFSET/LIMIT versus keyset cursor; local loopback HTTP.
 - Dataset: 100000 sequential IDs.
 - Measurements: 6 scenarios × 100 requests.
-- Certification: **HERO**
-- EOL: **CERTIFIED**
+- Validation: **PASS**
+- completion: **COMPLETE**
 
 ## Acceptance checks
 
 | Criterion | Result |
 |---|---|
-| C01_DATASET | HERO |
-| C02_EQUIVALENCE | HERO |
-| C03_HTTP_BOUNDARIES | HERO |
-| C04_BENCHMARK | HERO |
-| C05_DOCUMENTATION | HERO |
+| C01_DATASET | PASS |
+| C02_EQUIVALENCE | PASS |
+| C03_HTTP_BOUNDARIES | PASS |
+| C04_BENCHMARK | PASS |
+| C05_DOCUMENTATION | PASS |
 
 ## Results (p50 HTTP / p50 SQL, ms)
 
@@ -36,5 +36,5 @@
 - No snapshot-consistency test for concurrent writes.
 - No predefined minimum speedup; comparative measurements are descriptive.
 
-This EOL closes the bounded experimental scope, not production readiness.
+This completion closes the bounded experimental scope, not production readiness.
 Follow-on experiments belong to a new mission.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SIG micro-POC 003: deterministic cache-aside over SQLite."""
+"""Micro-POC 003: deterministic cache-aside over SQLite."""
 import argparse
 import json
 import random
@@ -95,7 +95,7 @@ def certify(args):
         tick = [100.0]
         cache = CacheAside(con, 2, 10, lambda: tick[0])
         def record(name, ok, evidence):
-            checks.append({'criterion':name,'state':'HERO' if ok else 'ZERO','evidence':evidence})
+            checks.append({'criterion':name,'state':'PASS' if ok else 'FAIL','evidence':evidence})
         a = cache.get(1)
         b = cache.get(1)
         record('C01_HIT_MISS',a==b and cache.hits==1 and cache.misses==1,'first read miss; second read hit')
@@ -110,18 +110,18 @@ def certify(args):
         record('C05_NOT_FOUND',cache.get(999) is None,'missing key returns null')
         record('C06_DB_INTEGRITY',con.execute('SELECT COUNT(*) FROM items').fetchone()[0]==100,'100 unique records')
         con.close()
-    summary={'mission':'SIG-MICRO-POC-003','certification':'HERO' if all(c['state']=='HERO' for c in checks) else 'ZERO','criteria':checks}
-    summary['eol']='CERTIFIED' if summary['certification']=='HERO' else 'NOT CERTIFIED'
+    summary={'mission':'Micro-POC 003','validation':'PASS' if all(c['state']=='PASS' for c in checks) else 'FAIL','criteria':checks}
+    summary['completion']='COMPLETE' if summary['validation']=='PASS' else 'NOT COMPLETE'
     folder=HERE/'evidence';folder.mkdir(exist_ok=True)
-    (folder/'certification.json').write_text(json.dumps(summary,indent=2)+'\n')
-    (folder/'EOL.md').write_text('# SIG MICRO-POC 003 — Closure\n\n'+f"Certification: **{summary['certification']}**  \nEOL: **{summary['eol']}**\n\n"+'Scope: SQLite cache-aside, LRU capacity, TTL, invalidation and deterministic tests. No Redis, concurrency, multi-process consistency or production durability claims.\n')
+    (folder/'validation.json').write_text(json.dumps(summary,indent=2)+'\n')
+    (folder/'completion.md').write_text('# Micro-POC 003 — Closure\n\n'+f"Validation: **{summary['validation']}**  \nEOL: **{summary['completion']}**\n\n"+'Scope: SQLite cache-aside, LRU capacity, TTL, invalidation and deterministic tests. No Redis, concurrency, multi-process consistency or production durability claims.\n')
     for c in checks: print(f"{c['criterion']}: {c['state']} — {c['evidence']}")
-    print(f"CERTIFICATION: {summary['certification']}; EOL: {summary['eol']}")
-    return 0 if summary['certification']=='HERO' else 1
+    print(f"CERTIFICATION: {summary['validation']}; completion: {summary['completion']}")
+    return 0 if summary['validation']=='PASS' else 1
 
 
 def main():
-    parser=argparse.ArgumentParser(description='SIG caching micro-POC')
+    parser=argparse.ArgumentParser(description='Micro-POC caching micro-POC')
     sub=parser.add_subparsers(dest='command',required=True)
     init=sub.add_parser('init',help='Initialize SQLite dataset')
     init.add_argument('--rows',type=int,default=100000)
