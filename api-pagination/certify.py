@@ -151,7 +151,7 @@ def main():
     evidence_path = EVIDENCE / 'validation.json'
     evidence_path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + '\n')
 
-    eol_path = EVIDENCE / 'completion.md'
+    eol_path = EVIDENCE / 'RESULTS.md'
     if all_ok:
         table = '\n'.join(f'| {name} | {value["status"]} |' for name, value in record['checks'].items())
         lines = [

@@ -114,7 +114,7 @@ def certify(args):
     summary['completion']='COMPLETE' if summary['validation']=='PASS' else 'NOT COMPLETE'
     folder=HERE/'evidence';folder.mkdir(exist_ok=True)
     (folder/'validation.json').write_text(json.dumps(summary,indent=2)+'\n')
-    (folder/'completion.md').write_text('# Micro-POC 003 — Closure\n\n'+f"Validation: **{summary['validation']}**  \nEOL: **{summary['completion']}**\n\n"+'Scope: SQLite cache-aside, LRU capacity, TTL, invalidation and deterministic tests. No Redis, concurrency, multi-process consistency or production durability claims.\n')
+    (folder/'RESULTS.md').write_text('# Micro-POC 003 — Closure\n\n'+f"Validation: **{summary['validation']}**  \nCompletion: **{summary['completion']}**\n\n"+'Scope: SQLite cache-aside, LRU capacity, TTL, invalidation and deterministic tests. No Redis, concurrency, multi-process consistency or production durability claims.\n')
     for c in checks: print(f"{c['criterion']}: {c['state']} — {c['evidence']}")
     print(f"CERTIFICATION: {summary['validation']}; completion: {summary['completion']}")
     return 0 if summary['validation']=='PASS' else 1

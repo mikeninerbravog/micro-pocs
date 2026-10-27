@@ -172,7 +172,7 @@ def main():
                                     'saturation drops messages',
                                     'one producer; one consumer; local filesystem']}
         (out / 'validation.json').write_text(json.dumps(evidence, indent=2) + '\n')
-        (out / 'completion.md').write_text(f'# Micro-POC 002 Validation\n\nStatus: **{status}**\n\nEOL: **{"COMPLETE" if status == "PASS" else "NOT COMPLETE"}**\n\n'
+        (out / 'RESULTS.md').write_text(f'# Micro-POC 002 Validation\n\nStatus: **{status}**\n\nCompletion: **{"COMPLETE" if status == "PASS" else "NOT COMPLETE"}**\n\n'
                                     + '\n'.join(f'- {k}: {"PASS" if v else "FAIL"}' for k, v in checks.items())
                                     + '\n\nScope: in-process asynchronous logging with bounded queue, batch and periodic flush.\n'
                                     + '\nLimits: not lock-free; crash loss possible; overflow policy drops logs.\n')

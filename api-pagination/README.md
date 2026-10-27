@@ -37,7 +37,7 @@ Run `python3 certify.py --repeat 100` from this folder. The script initializes a
 missing dataset, uses an ephemeral loopback HTTP server, checks dataset and
 pagination invariants, tests HTTP error boundaries, and collects six local
 benchmark scenarios. It writes `evidence/validation.json`. Only when all
-five checks pass does it write `evidence/completion.md` and exit with status 0.
+five checks pass does it write `evidence/RESULTS.md` and exit with status 0.
 A failure records FAIL, exits nonzero, and does not leave an completion certificate.
 This certificate applies only to the bounded local experiment; it is not a
 production performance, concurrency, or throughput validation.
@@ -109,7 +109,7 @@ Validation initializes the database if needed, runs an independent loopback HTTP
 
 ```bash
 cat evidence/validation.json
-cat evidence/completion.md
+cat evidence/RESULTS.md
 python3 -m json.tool evidence/validation.json
 ```
 

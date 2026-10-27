@@ -24,12 +24,12 @@ python3 poc.py bench --events 100000 --capacity 8192 --batch 512 --interval-ms 1
 # Write benchmark files elsewhere
 python3 poc.py bench --events 10000 --output /tmp/async-logging-bench
 
-# Validate contracts and generate evidence/validation.json and evidence/completion.md
+# Validate contracts and generate evidence/validation.json and evidence/RESULTS.md
 python3 poc.py certify --events 10000
 
 # Inspect evidence
 cat evidence/validation.json
-cat evidence/completion.md
+cat evidence/RESULTS.md
 wc -l evidence/sync.log evidence/async.log evidence/paced.log
 ```
 

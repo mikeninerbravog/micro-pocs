@@ -12,7 +12,7 @@ python3 poc.py bench --requests 100000
 python3 poc.py bench --rows 100000 --requests 100000 --hot 100 --capacity 512 --ttl 60 --seed 42
 python3 poc.py certify
 cat evidence/validation.json
-cat evidence/completion.md
+cat evidence/RESULTS.md
 ```
 
 The benchmark seeds a repeatable key workload: 90% target the first `--hot` records; 10% sample across the dataset. Same requests and checksum are used for uncached and cached reads. Timings include Python overhead and OS filesystem caching. Output includes p50/p95 latency, throughput, cache hit rate and evictions. A cache can be slower on indexed local DB reads; no improvement is presumed.
@@ -28,7 +28,7 @@ The benchmark seeds a repeatable key workload: 90% target the first `--hot` reco
 
 ## Micro-POC acceptance / completion
 
-`certify` tests hits and misses, LRU eviction, TTL, write invalidation, not-found handling and dataset integrity. It emits `evidence/validation.json` and `evidence/completion.md`. PASS is awarded only on passing all tests. completion closes this limited lab, not a general production caching claim.
+`certify` tests hits and misses, LRU eviction, TTL, write invalidation, not-found handling and dataset integrity. It emits `evidence/validation.json` and `evidence/RESULTS.md`. PASS is awarded only on passing all tests. completion closes this limited lab, not a general production caching claim.
 
 ## Files
 
