@@ -6,6 +6,14 @@
 
 This public repository contains focused micro-proofs-of-concept. Each experiment isolates a technical idea, supplies runnable source code and tests, reports observations, and clearly states its limitations. The goal is to learn from measured behavior—not to advertise benchmark wins or production readiness.
 
+## What is a micro-POC?
+
+A **micro-POC (micro proof of concept)** is the smallest practical, testable foundation for exploring a technical approach. It is a **starting point—not a finished product, a complete architecture, or a drop-in production solution**.
+
+These experiments are designed to be **adopted modularly**: take the component or technique relevant to your project, integrate it into your own architecture, and extend it **only as your project requirements demand**. Depending on your use case, this may mean adding concurrency, persistence, observability, security, integration tests, or production-grade error handling.
+
+The idea is simple: **start with a small, working proof, measure its behavior, and evolve it according to real needs rather than hypothetical complexity**. Each micro-POC deliberately keeps its scope narrow so its assumptions, trade-offs, and limitations remain visible.
+
 ## Experiments
 
 | Experiment | What it tests | Run | Key finding |
